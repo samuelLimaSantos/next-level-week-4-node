@@ -5,7 +5,6 @@
   "username": "postgres",
   "password": "docker",
   "database": "nlw_4_node",
-  "logging": true,
   "entities": [
     "./src/models/*.ts"
   ],

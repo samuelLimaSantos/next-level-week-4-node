@@ -1,10 +1,23 @@
 import { Request, Response } from 'express';
 import { getCustomRepository } from 'typeorm';
 import { SurveysRepository } from '../repositories/SurveysRepository';
+import * as yup from 'yup';
+import { AppError } from '../errors/AppError';
 
 class SurveysController {
   async create(request: Request, response: Response) {
     const { title, description } = request.body;
+
+    const schema = yup.object().shape({
+      title: yup.string().required('Título é obrigatório'),
+      description: yup.string().required('Descrição é obrigatória'),
+    });
+
+    try{
+      await schema.validate(request.body, { abortEarly: false });
+    } catch(error) {
+      throw new AppError(error.errors);
+    }
 
     const surveyRepository = getCustomRepository(SurveysRepository);
 

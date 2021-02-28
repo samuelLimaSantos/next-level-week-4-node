@@ -12,12 +12,16 @@ describe("Users",() => {
   })
 
   afterAll(async (done) => {
-    const entities = getConnection().entityMetadatas;
+    // const entities = getConnection().entityMetadatas;
 
-    for (const entity of entities) {
-      const repository = getConnection().getRepository(entity.name); // Get repository
-      await repository.clear(); // Clear each entity table's content
-    }
+    // for (const entity of entities) {
+    //   const repository = getConnection().getRepository(entity.name); // Get repository
+    //   await repository.clear(); // Clear each entity table's content
+    // }
+
+    const connection = getConnection();
+    await connection.dropDatabase();
+    await connection.close();
   })
 
   it('should be able to create a new user', async () => {
